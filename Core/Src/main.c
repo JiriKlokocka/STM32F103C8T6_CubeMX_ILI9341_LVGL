@@ -134,7 +134,7 @@ int main(void)
 
 
 	  if(timeCnt % 100 == 0) {
-		  JK_SetEncoderText(encCounter, encBtnFlag);
+		  //JK_SetEncoderText(encCounter, encBtnFlag);
 	  }
 
 
