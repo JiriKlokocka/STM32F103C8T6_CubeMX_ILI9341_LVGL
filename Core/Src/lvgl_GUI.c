@@ -75,7 +75,7 @@ void lvgl_GUI(void)
 
     pgHeader = lv_page_create(lv_scr_act(), NULL);
     lv_obj_set_pos(pgHeader, 0, 0);
-    lv_obj_set_size(pgHeader, 320, 31);
+    lv_obj_set_size(pgHeader, 320, 29);
     lv_obj_set_style_local_radius(pgHeader, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 1);
     lv_obj_set_style_local_pad_all(pgHeader, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
     lv_obj_set_style_local_margin_all(pgHeader, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
@@ -140,14 +140,40 @@ void lvgl_GUI(void)
 	lv_indev_set_group(indev_encoder, grpMain);
 }
 
+static void JK_Test_Button(lv_obj_t * btn, lv_obj_t* parent, const char* symbol, const char* text, lv_event_cb_t event_cb) {
+	static uint16_t posX = 10, posY = 10;
+	uint16_t width=130, height=30, xShift = 20, yShift = 10;
+
+	//btn = lv_btn_create(parent, NULL);
+	//lv_group_add_obj(grpMain, btn);
+    lv_obj_set_pos(btn, posX, posY);
+    lv_obj_set_size(btn, width, height);
+    lv_obj_set_event_cb(btn, event_cb);
+    //btn->event_cb = event_cb;
+
+    //Button label
+    lv_obj_t* label = lv_label_create(btn, NULL);
+    lv_label_set_text_fmt(label, "%s %s", symbol, text);
+    lv_obj_add_style(btn, LV_BTN_PART_MAIN, &style_buttons);
+
+
+    if((posY + height + yShift) < lv_obj_get_height(pgMain)){
+    	posY = posY + height + yShift;
+    } else {
+    	posX = posX + width + xShift;
+    	posY = yShift;
+    }
+
+}
+
 static void btn2Event(lv_obj_t * btn, lv_event_t event) {
 	if(event == LV_EVENT_RELEASED){
 		lv_obj_t * pgDialog = lv_page_create(pgMain, NULL);
 	    lv_obj_set_pos(pgDialog, 35, 25);
-	    lv_obj_set_size(pgDialog, 250, 180);
-	    //lv_page_set_scrl_layout(pgDialog, LV_LAYOUT_PRETTY_MID);
+	    lv_obj_set_size(pgDialog, 250, 160);
+	    lv_page_set_scrl_layout(pgDialog, LV_LAYOUT_COLUMN_MID);
 
-	    lv_ex_slider_2(pgDialog, 10, 20);
+	    lv_ex_slider_2(pgDialog, 20, 20);
 
 	    lv_obj_t * btn = lv_btn_create(pgDialog, NULL);
 	    lv_obj_set_event_cb(btn, lv_page_close_event_cb);
@@ -156,6 +182,7 @@ static void btn2Event(lv_obj_t * btn, lv_event_t event) {
 	    lv_obj_add_style(btn, LV_BTN_PART_MAIN, &style_buttons);
 	    lv_obj_set_pos(btn, 10, 70);
 	    lv_obj_set_size(btn, 110, 30);
+	    lv_obj_add_style(btn, LV_BTN_PART_MAIN, &style_buttons);
 
 	    lv_group_t * grpDialog = lv_group_create();
 		lv_group_add_obj(grpDialog, btn);
@@ -183,31 +210,7 @@ void JK_SetEncoderText(int16_t valEnc, uint16_t valBtn) {
 	//lv_label_set_text_fmt(labelHeader, "Enc:%i Btn:%i",valEnc, valBtn);
 }
 
-static void JK_Test_Button(lv_obj_t * btn, lv_obj_t* parent, const char* symbol, const char* text, lv_event_cb_t event_cb) {
-	static uint16_t posX = 10, posY = 10;
-	uint16_t width=130, height=30, xShift = 20, yShift = 10;
 
-	//btn = lv_btn_create(parent, NULL);
-	//lv_group_add_obj(grpMain, btn);
-    lv_obj_set_pos(btn, posX, posY);
-    lv_obj_set_size(btn, width, height);
-    lv_obj_set_event_cb(btn, event_cb);
-    //btn->event_cb = event_cb;
-
-    //Button label
-    lv_obj_t* label = lv_label_create(btn, NULL);
-    lv_label_set_text_fmt(label, "%s %s", symbol, text);
-    lv_obj_add_style(btn, LV_BTN_PART_MAIN, &style_buttons);
-
-
-    if((posY + height + yShift) < lv_obj_get_height(pgMain)){
-    	posY = posY + height + yShift;
-    } else {
-    	posX = posX + width + xShift;
-    	posY = yShift;
-    }
-
-}
 
 
 
@@ -216,15 +219,15 @@ void lv_ex_slider_2(lv_obj_t * parent, uint16_t x, uint16_t y)
     /* Create a slider in the center of the display */
     slider = lv_slider_create(parent, NULL);
     lv_obj_set_width(slider, 180); //lv_obj_get_width(parent - 50)
-    lv_obj_set_pos(slider, x, y);
+    //lv_obj_set_pos(slider, x, y);
     lv_obj_set_event_cb(slider, slider_event_cb);
     lv_slider_set_range(slider, 0, 100);
 
     /* Create a label below the slider */
     slider_label = lv_label_create(parent, NULL);
     lv_label_set_text(slider_label, "0");
-    lv_obj_set_auto_realign(slider_label, true);
-    lv_obj_set_pos(slider_label, x, y + 45);
+    //lv_obj_set_auto_realign(slider_label, true);
+    //lv_obj_set_pos(slider_label, x+40, y + 25);
 
 }
 
