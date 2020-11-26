@@ -52,9 +52,9 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
-volatile uint8_t encBtnInterruptFlag;
+volatile uint8_t encoderBtnInterruptFlag;
 extern uint8_t encBtnFlag;
-volatile extern int16_t encCounter;
+extern int16_t encoderStep;
 
 /* USER CODE END PV */
 
@@ -128,31 +128,31 @@ int main(void)
   while (1)
   {
 	  if(timeCnt % 500 == 0) {
-
+		  /******* 1 second interval *****/
 	  }
 
 
 	  if(timeCnt % 100 == 0) {
+		  /******* 200 milliseconds interval *****/
 		  //JK_SetEncoderText(encCounter, encBtnFlag);
 	  }
 
 
-
 	  if(timeCnt % 5 == 0) {
+		  /******* 10 milliseconds interval *****/
 		  lv_task_handler();
 	  }
 
-	  if(encBtnInterruptFlag && HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == GPIO_PIN_RESET && timeCnt % 10 == 0) {
-		  encBtnFlag = 1;
-		  encBtnInterruptFlag = 0;
 
-	  } else if(encBtnInterruptFlag && HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == GPIO_PIN_SET && timeCnt % 10 == 0) {
+	  //debouncing encoder button for lvgl - 20 milliseconds
+	  if(encoderBtnInterruptFlag && HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == GPIO_PIN_RESET && timeCnt % 10 == 0) {
+		  encBtnFlag = 1;
+		  encoderBtnInterruptFlag = 0;
+	  } else if(encoderBtnInterruptFlag && HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == GPIO_PIN_SET && timeCnt % 10 == 0) {
 		  encBtnFlag = 0;
-		  encBtnInterruptFlag = 0;
-		  //HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
+		  encoderBtnInterruptFlag = 0;
 	  }
 
-	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, encBtnFlag);
 
 	  HAL_Delay(1);
 	  timeCnt++;
@@ -263,7 +263,7 @@ static void MX_TIM4_Init(void)
   htim4.Init.Period = 65535;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  sConfig.EncoderMode = TIM_ENCODERMODE_TI2;
+  sConfig.EncoderMode = TIM_ENCODERMODE_TI1;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC1Prescaler = TIM_ICPSC_DIV8;
@@ -271,7 +271,7 @@ static void MX_TIM4_Init(void)
   sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC2Prescaler = TIM_ICPSC_DIV8;
-  sConfig.IC2Filter = 0;
+  sConfig.IC2Filter = 5;
   if (HAL_TIM_Encoder_Init(&htim4, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -336,12 +336,29 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void Interrupt_EncoderChange(){
-	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
-	encCounter = ((int16_t)__HAL_TIM_GET_COUNTER(&htim4))/2;
+
+	static int16_t previousEncoderCnt = 0;
+
+	int16_t encoderCnt = 0;
+
+	encoderCnt = ((int16_t)__HAL_TIM_GET_COUNTER(&htim4))/2;
+
+	if(encoderCnt > previousEncoderCnt) {
+		encoderStep = 1;
+
+	} else if(encoderCnt < previousEncoderCnt) {
+		encoderStep = -1;
+	} else {
+		//encoderStep = 0;
+	}
+
+	previousEncoderCnt = encoderCnt;
+
 }
 
 void Interrupt_ButtonPressed() {
-	encBtnInterruptFlag = 1;
+	//debouncing is in main() while() loop
+	encoderBtnInterruptFlag = 1;
 }
 
 

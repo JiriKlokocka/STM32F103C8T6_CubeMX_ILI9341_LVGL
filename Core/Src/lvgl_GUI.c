@@ -98,11 +98,11 @@ void lvgl_GUI(void)
     lv_obj_set_style_local_radius(pgMain, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 1);
 
     lv_style_init(&style_buttons);
-    lv_style_set_text_color(&style_buttons,  LV_STATE_FOCUSED, LV_COLOR_WHITE);
+    /*lv_style_set_text_color(&style_buttons,  LV_STATE_FOCUSED, LV_COLOR_WHITE);
     lv_style_set_bg_color(&style_buttons, LV_STATE_FOCUSED, LV_COLOR_RED);
     lv_style_set_margin_all(&style_buttons, LV_STATE_DEFAULT, 0);
     lv_style_set_pad_all(&style_buttons, LV_STATE_DEFAULT, 0);
-    lv_style_set_radius(&style_buttons, LV_STATE_DEFAULT, 3);
+    lv_style_set_radius(&style_buttons, LV_STATE_DEFAULT, 3);*/
 
     btn1 = lv_btn_create(pgMain, NULL);
     JK_Test_Button(btn1, pgMain, LV_SYMBOL_WIFI, " Button1", NULL);

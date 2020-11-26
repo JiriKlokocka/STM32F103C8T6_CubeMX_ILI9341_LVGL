@@ -28,7 +28,7 @@ lv_disp_drv_t disp_drv;
 static volatile uint32_t t_saved = 0;
 
 #define USE_DBL_BUFF	0
-#define BUFF_LINES 		2 //20 for double buffer, 40 for single buffer (to fit to RAM)
+#define BUFF_LINES 		5 //20 for double buffer, 40 for single buffer (to fit to RAM)
 #define USE_DMA 		0
 #define USE_DMA_IRQ		0
 
@@ -36,7 +36,7 @@ static volatile uint32_t t_saved = 0;
 
 
 uint8_t encBtnFlag = 0;
-volatile int16_t encCounter = 0;
+volatile int16_t encoderStep = 0;
 
 
 lv_indev_t * indev_encoder;
@@ -198,28 +198,25 @@ void lv_encoder_init(void)
 
 bool encoder_read(lv_indev_drv_t * indev, lv_indev_data_t * data)
 {
-	static int lastBtn;
-	static int32_t last_diff = 0;
-
-
-	int btn_state = 0;
 
 	if (encBtnFlag == 1) {
 		data->state = LV_INDEV_STATE_PR;
-		//encBtnFlag = 0;
 	} 	else	{
 		data->state = LV_INDEV_STATE_REL;
 	}
 
 
-	data->enc_diff = encCounter - last_diff;;
+	if(encoderStep>0){
+		data->enc_diff = 1;
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
+	} else if (encoderStep<0) {
+		data->enc_diff = -1;
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
+	} else {
+		data->enc_diff = 0;
+	}
 
-	last_diff = encCounter;
-
-	/*if (lastBtn != btn_state)
-	{
-		lastBtn = btn_state;
-	}*/
+	encoderStep = 0;
 
 	return false;
 }
