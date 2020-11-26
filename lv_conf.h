@@ -475,7 +475,7 @@ typedef void * lv_font_user_data_t;
 
 #define LV_THEME_DEFAULT_INCLUDE            <stdint.h>      /*Include a header for the init. function*/
 #define LV_THEME_DEFAULT_INIT               lv_theme_material_init //lv_theme_mono_init
-#define LV_THEME_DEFAULT_COLOR_PRIMARY      LV_COLOR_YELLOW//lv_color_hex(0xFF0000)
+#define LV_THEME_DEFAULT_COLOR_PRIMARY      lv_color_hex(0x00AADD)//lv_color_hex(0xFF0000)
 #define LV_THEME_DEFAULT_COLOR_SECONDARY    lv_color_hex(0x00FF00)
 #define LV_THEME_DEFAULT_FLAG               LV_THEME_MATERIAL_FLAG_DARK
 #define LV_THEME_DEFAULT_FONT_SMALL         &lv_font_montserrat_14 //&lv_font_unscii_16

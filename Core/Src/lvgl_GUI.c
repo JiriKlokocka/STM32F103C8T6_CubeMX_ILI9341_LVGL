@@ -102,6 +102,7 @@ void lvgl_GUI(void)
     lv_style_set_bg_color(&style_buttons, LV_STATE_FOCUSED, LV_COLOR_RED);
     lv_style_set_margin_all(&style_buttons, LV_STATE_DEFAULT, 0);
     lv_style_set_pad_all(&style_buttons, LV_STATE_DEFAULT, 0);
+    lv_style_set_radius(&style_buttons, LV_STATE_DEFAULT, 3);
 
     btn1 = lv_btn_create(pgMain, NULL);
     JK_Test_Button(btn1, pgMain, LV_SYMBOL_WIFI, " Button1", NULL);
@@ -216,12 +217,12 @@ void JK_SetEncoderText(int16_t valEnc, uint16_t valBtn) {
 
 void lv_ex_slider_2(lv_obj_t * parent, uint16_t x, uint16_t y)
 {
-    /* Create a slider in the center of the display */
+
     slider = lv_slider_create(parent, NULL);
     lv_obj_set_width(slider, 180); //lv_obj_get_width(parent - 50)
     //lv_obj_set_pos(slider, x, y);
     lv_obj_set_event_cb(slider, slider_event_cb);
-    lv_slider_set_range(slider, 0, 100);
+    lv_slider_set_range(slider, 0, 30);
 
     /* Create a label below the slider */
     slider_label = lv_label_create(parent, NULL);
