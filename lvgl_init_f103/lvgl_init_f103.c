@@ -36,7 +36,7 @@ static volatile uint32_t t_saved = 0;
 
 
 uint8_t encBtnFlag = 0;
-int16_t encCounter = 0;
+volatile int16_t encCounter = 0;
 
 
 lv_indev_t * indev_encoder;
@@ -206,7 +206,7 @@ bool encoder_read(lv_indev_drv_t * indev, lv_indev_data_t * data)
 
 	if (encBtnFlag == 1) {
 		data->state = LV_INDEV_STATE_PR;
-		encBtnFlag = 0;
+		//encBtnFlag = 0;
 	} 	else	{
 		data->state = LV_INDEV_STATE_REL;
 	}
@@ -216,10 +216,10 @@ bool encoder_read(lv_indev_drv_t * indev, lv_indev_data_t * data)
 
 	last_diff = encCounter;
 
-	if (lastBtn != btn_state)
+	/*if (lastBtn != btn_state)
 	{
 		lastBtn = btn_state;
-	}
+	}*/
 
 	return false;
 }

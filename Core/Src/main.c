@@ -53,10 +53,9 @@ TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
 volatile uint8_t encBtnInterruptFlag;
-volatile int16_t encInterruptDiff;
 extern uint8_t encBtnFlag;
-extern int16_t encCounter;
-volatile uint8_t encFlag;
+volatile extern int16_t encCounter;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
