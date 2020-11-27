@@ -382,7 +382,7 @@ typedef void * lv_indev_drv_user_data_t;            /*Type of user data in the i
 #define LV_FONT_MONTSERRAT_8     0
 #define LV_FONT_MONTSERRAT_10    0
 #define LV_FONT_MONTSERRAT_12    0
-#define LV_FONT_MONTSERRAT_14    1
+#define LV_FONT_MONTSERRAT_14    0
 #define LV_FONT_MONTSERRAT_16    1
 #define LV_FONT_MONTSERRAT_18    0
 #define LV_FONT_MONTSERRAT_20    0
@@ -455,7 +455,7 @@ typedef void * lv_font_user_data_t;
 
 /*Simple to the create your theme based on it
  * No flags. Set LV_THEME_DEFAULT_FLAG 0 */
-#define LV_USE_THEME_TEMPLATE    1
+#define LV_USE_THEME_TEMPLATE    0
 
 /* A fast and impressive theme.
  * Flags:
@@ -473,13 +473,13 @@ typedef void * lv_font_user_data_t;
  * No flags. Set LV_THEME_DEFAULT_FLAG 0 */
 #define LV_USE_THEME_MONO        0
 
-#define LV_THEME_DEFAULT_INCLUDE            <stdint.h>      /*Include a header for the init. function*/
-#define LV_THEME_DEFAULT_INIT               lv_theme_template_init //lv_theme_material_init
-#define LV_THEME_DEFAULT_COLOR_PRIMARY      lv_color_hex(0x00AADD)//lv_color_hex(0xFF0000)
+#define LV_THEME_DEFAULT_INCLUDE            <lv_theme_myown.h>      /*Include a header for the init. function*/
+#define LV_THEME_DEFAULT_INIT               lv_theme_myown_init //lv_theme_material_init
+#define LV_THEME_DEFAULT_COLOR_PRIMARY      lv_color_hex(0xFF0000)//lv_color_hex(0xFF0000)
 #define LV_THEME_DEFAULT_COLOR_SECONDARY    lv_color_hex(0x00FF00)
 #define LV_THEME_DEFAULT_FLAG               0 //LV_THEME_MATERIAL_FLAG_DARK
-#define LV_THEME_DEFAULT_FONT_SMALL         &lv_font_montserrat_14 //&lv_font_unscii_16
-#define LV_THEME_DEFAULT_FONT_NORMAL        &lv_font_montserrat_14 //&lv_font_unscii_16
+#define LV_THEME_DEFAULT_FONT_SMALL         &lv_font_montserrat_16 //&lv_font_unscii_16
+#define LV_THEME_DEFAULT_FONT_NORMAL        &lv_font_montserrat_16 //&lv_font_unscii_16
 #define LV_THEME_DEFAULT_FONT_SUBTITLE      &lv_font_montserrat_16 //&lv_font_unscii_16
 #define LV_THEME_DEFAULT_FONT_TITLE         &lv_font_montserrat_16 //&lv_font_unscii_16
 /*=================
